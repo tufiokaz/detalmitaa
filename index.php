@@ -4,60 +4,55 @@
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />   
 		<title>Detalmita</title>
-		<meta charset="UTF-8">		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 		<script src="manager.js"></script>
+		<meta charset="UTF-8">		
 	</head>
 	<body>
-
-
-<?php
-
-	$host = "localhost";
-	$user = "root";
-	$pass = "";
-	$db	  = "detalmita";
-	$link = mysqli_connect($host, $user, $pass, $db);
-	
-// Jei	neveikia //
-if (!$link) {
-    echo "Error: Unable to connect to MySQL." . PHP_EOL;
-    echo "Debugging errno: " . mysqli_connect_errno() . PHP_EOL;
-    exit;
-}
-/////////////////
-
-	header('Content-Type: HTML; charset=UTF-8');
-
-	$csv = array_map('str_getcsv', file('database.csv'));
-	
-	array_walk($csv, function(&$a) use ($csv) {
-		$a = array_combine($csv[0], $a);
-	});
-
-	array_shift($csv);
 		
-	foreach($csv as $t){
-		echo "Marke: " . $t['marke']. " Modelis: " . $t['modelis']. " Metai: ". $t['metai']. " Dalis: ". $t['dalis']. " Kiekis sandelyje: " . $t['likutis']. "<br>"; 
-		//echo "<option>" . $t['marke'] . "</option>";
-		//echo "Marke: " . $t['MARKE']. " Modelis: " . $t['MODELIS']. " Metai: ". $t['METAI']. " Kiekis sandelyje: " .$t['LIKUTIS']. "\n"; 	
-		//echo "Marke: " . $t['MARKE']; 
-		// output data of each row	SS
-		//echo "Metai: " . $t['METAI']; 		
-		//$query = "INSERT INTO manufacturers (manufacturer) VALUES ('".$t['modelis']."') ON DUPLICATE KEY UPDATE manufacturer = manufacturer;";
-		
-	}
-
-	
-
-mysqli_close($link);
-
-if (!$link)
-
-?>
-
-		
+	<div class="body">
+		<div class="sideNav">
+			<div class="menuOption" id="searchLink" onclick="navSelect(event, 'searchContent')">Search</div>
+			<div class="menuOption" id="contantsLink" onclick="navSelect(event, 'contactsContent')">Contacts</div>
 			
+		</div>
+
+		<div class="topNav">
+		</div>
+
+
+		
+		<div class="contentBox">
+
+			<div class="contentBoxContent" id="searchContent">
+				<?php 
+					include('core/init.inc.php'); 
+				?>
+				<script>
+					$(document).ready(function(){
+						$(".selectMarke").change(function(){
+							var kintamasis = this.value;
+							$('.selectModelis').attr('style',"display:none");
+							$('[modelis="'+kintamasis+'"]').attr("style", "display: block");	
+						});							
+					});
+				</script>
+			</div>
+
+			<div class="contentBoxContent" id="contactsContent">
+				<p> pisk nx </p>
+			</div>
+
+		</div>
+
+		<div class="footer">
+			<p> Copyright Detalmita </p>
+		</div>
+		
+	</div>
+
 	</body>
+	<script src="select_display.js"></script>
 	</html>
 
 
